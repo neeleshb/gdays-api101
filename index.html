@@ -1,0 +1,548 @@
+<!--
+Google IO 2012 HTML5 Slide Template
+
+Authors: Eric Bidelman <ebidel@gmail.com>
+         Luke Mahé <lukem@google.com>
+
+URL: https://code.google.com/p/io-2012-slides
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>g|india 2012</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--This one seems to work all the time, but really small on ipad-->
+  <!--<meta name="viewport" content="initial-scale=0.4">-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="all" href="theme/css/add2.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+</head>
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+ <!-- landing slide -->
+  <slide class="logoslide nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="images/google_developers_logo.png"></span>
+    </article>
+  </slide>
+  <!-- title slide -->
+  <slide class="title-slide segue nobackground">
+    <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside>
+    <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+    </hgroup>
+  </slide>
+<!-- what we will learn -->
+  <slide>
+    <hgroup>
+      <h2>What we will learn today?</h2>
+      <h3>steps to build an application using Google APIs</h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>How to search, sign up and use Google APIs.<br/><br/></li>
+		<li>How to make API calls using REST, and using client libraries.<br/><br/></li>
+        <li>How to make authenticated calls.<br/><br/></li>
+		<li>How to access information on behalf of your users.<br/><br/></li>
+		<li>How to manage the access, quota and traffic to your application.<br/><br/></li>
+		<li>How to use tools like Google API explorer or Oauth playground.<br/><br/></li>
+		<li>How to start programming using Google AppsScript.<br/><br/></li>
+
+	 </ul>
+	</article>
+	<aside class="note">This is a 101 class - the intended audience is the folks who are interested in building applications using Google APIs but aren't sure where to start.
+    </aside>
+  </slide>
+<!-- What are google APIS -->
+  <slide>
+	<hgroup>
+      <h2>Google APIs</h2>
+	  <h3>What and Why?</h3>
+    </hgroup>
+    <article style="font-size:22px;">
+	<ul id="whatAndwhy" class="build">	
+		<li><span class="bulleTitle">Plugins: </span>Help users quickly embed useful widgets on their sites with minimal code.<br/></li>
+		<li><span class="bulleTitle">Client Libraries: </span>Provide multiple ways to programmatically access functionality of Google products.<br/></li>
+		<li><span class="bulleTitle">AppsScript: </span>JavaScript cloud scripting language that provides easy ways to automate tasks across Google products.<br/></li>
+		<li><span class="bulleTitle">API Explorer: </span>A single interface that gives all available APIs with their details.<br/></li>
+		<li><span class="bulleTitle">Oauth2 Playground: </span>A Sandbox for experimenting with APIs that require authentication.<br/></li>
+		<li><span class="bulleTitle">API Console: </span>A dashboard to register and manage applications that use Google APIs.<br/></li>
+	</ul>
+	<div class="goal">Developers should experience ease of development while building applications that use or interact with Google products.</div>
+    </article>
+   <aside class="note">There are couple of more things that Google provides - E.g. a marketplace where you can showcase your apps and sell them, or administrative APIs to manipulate apps domains etc, but we will not go in those details today. If anybody is interested, you can catch me after the session and I will be glad to provide you more details.</aside> 
+  </slide>
+  <!-- Who uses them -->
+  <slide hidden>
+	<hgroup>
+		<h2>Who uses Google APIs?</h2>
+		<h3>Everybody other than you, probably!</h3>
+	</hgroup>
+	<article style="line-height:1.4em; font-size:18px;">
+	<ul>
+		<li><b><a href="http://myblocknyc.com">MyBlockNYC</a></b>: first fully interactive video map of New York City.<br/><br/></li>
+		<li><b><a href="http://www.planetinaction.com/helicopters/">Helicopter Simulator</a></b>: A Google Earth API game puts you in control of your very own helicopter.<br/><br/></li>
+		<li><b><a href="http://www.callofduty.com/blackops/">Call of Duty (Black Ops)</a></b>: Uses youtube upload APIs to upload video clips directly from Theater mode to Youtube.<br/><br/></li>
+		<li><b><a href="http://www.planetinaction.com/moonlander/">Apollo 11 Lunar Calendar</a></b>: Google Earth browser 3d game involving navigation on moon.<br/><br/></li>
+		<li><b><a href="http://scootdoodle.com/hangouts/">Scoot Doodle</a></b>: Built using the Google+ Hangouts API, lets up to 10 of your favorite people draw, play and create together, face-to-face, in real time.<br/><br/></li>
+		<li><b><a href="http://launch-hangouts.cacoo.com/">Cacoo</a></b>: Share diagrams while doing a video chat.</li>
+	</ul>
+	<br/>
+	<div class="goal">You can build an app too, and make it available on <a href="https://developers.google.com/showcase/">Google developer showcase.</a></div>
+    </article>
+	</article>
+	</slide>		
+  
+<!-- Quick Look  -->
+ <slide>
+    <hgroup>
+      <h2>Google APIs are RESTful</h2>
+	  <h3>..and are built over the HTTP protocol</h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+	<li>Methods are HTTP verbs: PUT, GET, DELETE etc.<br/><br/></li>
+	<li>Resources are encoded in JSON (JavaScript Object Notation)<br/><br/></li>	
+	<li>Requests are web-based, and are sent to the Google APIs frontend: <b>https://www.googleapis.com/</b><br/><br/></li>
+	<li>
+	<div class="apiRequest">
+		GET https://www.googleapis.com/urlshortener/v1/url?shortUrl=http://goo.gl/fbsS
+	</div><br/>
+	</li>
+	<li>
+	<div class="apiRequest">
+curl -H 'Content-Type: application/json' -d '{"longUrl": "http://www.verylongurl.com/to_shorten"}' "https://www.googleapis.com/urlshortener/v1/url" <br/>
+	</div>
+	</li>
+	</ul>	
+	</article>
+  </slide>
+  <!-- developer portal -->
+  <slide>
+    <hgroup>
+      <h2>Google Developer Portal</h2>
+      <h3>developers.google.com</h3>
+    </hgroup>
+    <article>
+    	<ul class="build">
+			<li><a href="http://developers.google.com">developers.google.com</a> is the central location for:<br/><br/>
+				<ul class="build" style="line-height:1.4em;">
+					<li>Learning about tools, products, services.</li>
+					<li>Referencing the API documentation.</li>
+					<li>Exploring API semantics, methods, resources and parameters.</li>
+					<li>Trying out APIs.</li>
+					<li>Getting updates on developer events, hangouts, latest features.</li>
+				</ul><br/></li>
+				<li>
+			<div class="exercise">Exercise 1: Find out if Google has an API to fetch Google+ profile of a user, and if so, use that API to fetch the profile of Harry Potter.</div>
+			</li>
+			</ul>
+    </article>
+  </slide>
+<!-- API Explorer -->
+  <slide>
+    <hgroup>
+      <h2>Google API Explorer</h2>
+      <h3>developers.google.com/apis-explorer</h3>
+    </hgroup>
+    <article>
+    	<ul class="build" style="font-size:22px;">
+			<li><a href="http://developers.google.com/apis-explorer">apis explorer</a> is an interactive tool that helps you:<br/><br/>
+				<ul class="build" style="line-height:1.4em;">
+					<li>List all APIs available for all Google products.</li>
+					<li>Explore their methods and required parameters.</li>
+					<li>Make API calls to these methods and examine HTTP response.</li>
+					<li>Send authenticated request and fetch data on behalf of the user.</li>
+				</ul></li>
+				<li>
+			<div class="exercise" style="font-size:22px;">Exercise 2: Use the APIs explorer to 
+				<ul><li>Create a short URL for 'http://www.html5rocks.com'</li>
+					<li>Search for all public activities associated with 'bangalore'</li>
+					<li>List all files on your Google drive.</li>
+				</ul>
+			</div>
+			</li>
+			</ul>
+    </article>
+  </slide>
+<!-- Oauth2 -->
+<slide>
+    <hgroup>
+      <h2>Making Authenticated API Calls</h2>
+      <h3>OAuth2</h3>
+    </hgroup>
+    <article class="smaller">
+	  <ul class="build">
+		<li>International standard for authorization. <a href="http://tools.ietf.org/html/draft-ietf-oauth-v2-28">Link to the current draft</a>.<br/><br/></li>
+	    <li>Allows user to share their private resources (E.g. photos, videos, user information) stored on one site with other sites, without requiring to give out password.<br/><br/></li>
+		<li><b>Steps to use OAuth to access the user's data:</b><br/>
+			<ul class="build">
+				<li>Register your application using the <a href="https://code.google.com/apis/console/">APIs Console.</a><br/></li>
+			    <li>Redirect the browser to Google's authorization page (for web-apps) or send a web service request (for installed apps).<br/></li>
+				<li>The user will be prompted for giving the permission, clearly indicating what data your application may use.<br/></li>
+				<li>If the user agrees, the Google authorization server sends an access token to your application, which can be used to make further API calls.<br/></li>
+		     </ul>
+	    </li>
+	</ul>
+	</article>
+	</slide>
+	<!-- Login flow image -->
+	<slide>
+	 <hgroup>
+	      <h2>Login Flow using oauth2</h2>
+	      <h3></h3>
+	    </hgroup>
+		<article>
+			<img src="images/loginflow.png" width="750"></img>
+		</article>
+	</slide>
+	
+	<!-- OAuth2 Vs Open Id -->
+	<slide hidden>
+		<h2>OpenId Vs. OAuth</h2>
+		<h3></h3>
+	    <artcile>
+		  <img src="images/OauthExample2.png" width="750"></img>
+	     </article>
+    </slide>
+	
+	<!-- Oauth2 Details 1 -->
+	<slide>
+	 <hgroup>
+	      <h2>Login Flow using oauth2</h2>
+	      <h3>Details - 1</h3>
+	    </hgroup>
+		<article class="smaller">
+			<ul class="build">
+				<li><b>Register</b> your application with the <a href="https://code.google.com/apis/console/">APIs Console</a> and provide appropriate redirect URIs. Obtain an API key, a client Id and a client secret.<br/><br/></li>
+				<li><b>Redirect</b> the user to a special URL (hosted on Google servers), giving details about the permission that you want.<br/><br/>
+				<div class="code">
+REDIRECT https://accounts.google.com/o/oauth2/auth?<br/>
+redirect_uri=http://example.com/back&response_type=code&<br/>
+client_id=123456789012.apps.googleusercontent.com&<br/>
+access_type=offline&approval_prompt=force&<br/>
+scope=https://www.googleapis.com/auth/calendar
+		       </div><br/></li>
+		<li>If the user agrees, the user is redirected to the specified redirect uri, by passing the <b>authorization code</b>. (If the user disagrees, the redirect happens without the authorization code).<br/><br/>
+<div class="code">
+REDIRECT http://example.com/back?code=4/P7q8W92a-oMsCeLvIaQm6bTrgtp7<br/>
+</div></li>
+		</ul>	
+		</article>
+	</slide>	
+	<!-- Oauth2 Details 2 -->
+	<slide>
+	 <hgroup>
+	      <h2>Login Flow using oauth2</h2>
+	      <h3>Details - 2</h3>
+	    </hgroup>
+		<article class="smaller">
+			<ul>
+				<li>Once you obtain the authorization code, exchange it to get an <b>access token</b> and a <b>refresh token</b>.<br/><br/>
+				<div class="code">
+POST https://accounts.google.com/o/oauth2/token<br/>
+{<br/>
+&nbsp;&nbsp;"redirect_uri": "http://example.com/back",<br/>
+&nbsp;&nbsp;"client_id": "123456789012.apps.googleusercontent.com",<br/>
+&nbsp;&nbsp;"code":"4/P7q8W92a-oMsCeLvIaQm6bTrgtp7"<br/>
+&nbsp;&nbsp;"client_secret": "PZLkv0-NZsSs7RTvVuo7Z_k1"<br/>
+}
+</div>
+<br/>
+<div class="code" style="font-size:18px;">
+{<br/>
+&nbsp;&nbsp;"access_token" : "ya29.AHES6ZR7fEOTxOfiEF-2sv5g1PG93t8AkNtRdqR8T57KzEB389-1mw",<br/>
+&nbsp;&nbsp;"token_type" : "Bearer",<br/>
+&nbsp;&nbsp;"expires_in" : "3600",<br/>
+&nbsp;&nbsp;"refresh_token" : "1/zsVhhRpHg95Hx9e74aEVVEU3EoyBUDbXrPQ9IsMso7c"<br/>
+}
+</div>
+				</li>
+		</ul>
+		</article>
+  </slide>
+<!-- Oauth2 details 3 -->
+	<slide>
+	 <hgroup>
+	      <h2>Login Flow using oauth2</h2>
+	      <h3>Details - 3</h3>
+	    </hgroup>
+		<article class="smaller">
+			<ul>
+				<li>If your application requires the access token after it expires, you can  request fresh access token using the refresh token.</li><br/>
+				<div class="code">
+POST https://accounts.google.com/o/oauth2/token<br/>
+{<br/>
+&nbsp;&nbsp;"client_id": "123456789012.apps.googleusercontent.com"<br/>
+&nbsp;&nbsp;"client_secret: "XTHhXh1SlUNgvyWGwDk1EjXB"<br/>
+&nbsp;&nbsp;"refresh_token": "1/zsVhhRpHg95Hx9e74aEVVEU3EoyBUDbXrPQ9IsMso7c"<br/>
+&nbsp;&nbsp;"grant_type": "refresh_token"<br/>
+}<br/>
+  </div>
+<br/>
+<div class="code" style="font-size:18px;">
+{<br/>
+&nbsp;&nbsp;"access_token" : "ya29.ZRuM11LKzMMV11zPaa-1cc5w6LT11m6fNLccc558U19OpDQC99-2fe",<br/>
+&nbsp;&nbsp;"token_type" : "Bearer",<br/>
+&nbsp;&nbsp;"expires_in" : "3600",<br/>
+}
+</div>
+				</li>
+		</ul>
+		</article>
+  </slide>
+
+	<!-- OAuth2 playground -->
+	<slide>
+	    <hgroup>
+	      <h2>Google OAuth Playground</h2>
+	      <h3>https://code.google.com/oauthplayground</h3>
+	    </hgroup>
+	    <article>
+			<ul class="build">
+				<li><a href="https://code.google.com/oauthplayground/">OAuth2 Playground</a> is an interactive tool that helps you to:<br/><br/>
+					<ul class="build" style="line-height:1.5em">
+						<li>Understand the OAuth2 protocol.</li>
+						<li>Learn steps to make an authenticated API call using access tokens. </li>
+						<li>Make authenticated API calls using a pre-registered application (called 'Google OAuth 2.0 Playground') and examine the HTTP response.</li>
+					</ul></li>
+					<div class="exercise" style="font-size:20px;">Exercise 3: Use the OAuth2 playground to 
+	<ul><li>List public activities from your Google+ profile.</li>
+		<li>Find out how many unread mails you have in your gmail inbox.</li>
+		<li>Upload a jpeg image to your google drive.</li>
+	</ul>
+	</div>
+	</li></ul>	
+    </article>
+  </slide>
+<!-- api console -->
+<slide>
+    <hgroup>
+      <h2>Registering Application for using Google APIs</h2>
+      <h3>The APIs Console</h3>
+    </hgroup>
+    <article>
+		<ul class="build" style="font-size:22px;">
+			<li><a href="https://code.google.com/apis/console">APIs console</a> is an administrative console used to -
+				<ul class="build" style="line-height:1.5em">
+					<li>Register your application with Google.</li>
+					<li>Decide which APIs you would like to use and sign up for their usage.</li>
+					<li>Manage your project members and their access levels.</li>
+					<li>Get the client ID and/or API keys for accessing the APIs.
+					<li>Set up billing details for paid APIs.</li>
+				</ul><br/></li>
+				<li>
+				<div class="exercise" style="line-height:1.6em;">Exercise 4: Use the APIs Console to create a new application, register for the calendar service, create an oauth2 client ID, and then use this client ID in the <a href="https://code.google.com/oauthplayground/">OAuth2 Playground</a> to add a meeting on your calendar from 4:30 to 5:30 PM today on behalf of your application.</li>
+</ul>
+</div>
+</li></ul>	
+</article>
+</slide>
+<!-- Curl -->
+<slide>
+	<hgroup>
+		<h2>Programmatic API Access - I</h2>
+		<h3>using curl</h3>
+	</hgroup>
+	<article>
+		<br/>
+<div class="code">
+AUTH_TOKEN='ya29.AHES6ZQAhiC-FFBeEV8y7v6RreyK3dHoHiKpAUjZHAYIKZuvAMsr'<br/>
+REQ='{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;"end" : { "dateTime" : "2012-07-20T21:30:00+05:30" }<br/>                                                                                                                                   
+&nbsp;&nbsp;&nbsp;&nbsp;"start" : { "dateTime" : "2012-07-20T20:30:00+05:30" }<br/>                                                                                                                                      
+&nbsp;&nbsp;&nbsp;&nbsp;"summary" : "G-India Follow up"<br/>
+}<br/>
+<br/>
+<br/>
+<span style="font-size:18px;">
+curl -H "Authorization: Bearer ${OAUTH_TOKEN}" <br/>
+-H "Content-Type: application/json" -d "${REQ}" <br/>
+"https://www.googleapis.com/calendar/v3/calendars/neelesh.gindia@gmail.com/events"
+</span>
+</div>
+	</article>
+   </slide>
+<!-- Client libraries -->
+<slide>
+	<hgroup>
+		<h2>Programmatic API Access - II</h2>
+		<h3>Using client libraries</h3>
+	</hgroup>
+	<article>
+		<ul class="build" style="line-height:1.6em">
+			<li><a href="https://developers.google.com/url-shortener/libraries">Client libraries</a> are available for a variety of languages, including Java, JavaScript, .NET, Python, Ruby, PHP and Objective-C. </li>
+			<li>Handle all the steps of the OAuth 2.0 protocol.<br/></li>
+			<li>Make it very simple to securely call any RESTful API and manipulate the data without the need of writing any code to access the data layer explicitly.</li>
+			<li>Take care of error handling and conveying appropriate information to the programmer.</li>	
+	</article>
+</slide>
+<!-- JS client library -->
+<slide>
+	<hgroup>
+		<h2>The JavaScript Client Library</h2>
+	</hgroup>
+	<article style="font-size:16px;line-height:1.2em;">
+		<ol class="build" style="list-style-type:decimal;">
+			<li>Load the JS client library:<br/><br/>
+				<div class="code2">
+					&lt;script src="https://apis.google.com/js/client.js?onload=OnLoadCallback"&gt;&lt;/script&gt;
+				</div><br/>
+			</li>
+			<li>Load the required API:<br/><br/>
+				<div class="code2">
+					gapi.client.load('API_NAME', 'API_VERSION', CALLBACK);
+				</div><br/>
+			</li>
+			<li>Set the API Key:<br/><br/>
+				<div class="code2">
+					gapi.client.setApiKey('API KEY HERE');
+				</div><br/>
+			</li>
+			<li>Make the request:<br/><br/>
+				<div class="code2">
+var restRequest = gapi.client.request({ <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;'path': pathToMakeRequest, <span class="gray3">// String</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;'method': httpMethod, <span class="gray3">// String</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;'params': urlParams, <span class="gray3">// Object</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;'header': httpHeaders, <span class="gray3">// Object</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;'body': requestBody, <span class="gray3">// String</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;'callback': callbackFunction <span class="gray3">// Function</span><br/>
+});<br/>
+restRequest.execute(CALLBACK);
+</div><br/>
+			</li>
+			
+	</ol>
+			
+	</article>
+</slide>
+<!-- JS client library -->
+<slide>
+	<hgroup>
+		<h2>The JavaScript Client Library - Example</h2>
+	</hgroup>
+	<article style="font-size:16px;line-height:1.2em;">
+<pre class="prettyprint" data-lang="javascript">
+gapi.client.request({
+    'path': '/calendar/v3/users/me/calendarList',
+    'method': 'POST',
+    'headers': {
+        'content-Type': 'application/json'
+    },
+    'body': JSON.stringify({
+        'id': 'gchennai.india@gmail.com',
+         'selected': true
+    }
+    'callback': function(jsonResponse, rawResponse) {
+	    // Response is the inserted calendar.
+    }
+});
+</pre>
+<a href="http://js-codelab.appspot.com/" style="float:right;">codelab</a>			
+	</article>
+</slide>
+<!-- AppsScript -->
+<slide>
+	<hgroup>
+		<h2>Google AppsScript</h2>
+		<h3>Cloud computing language based on JavaScript.</h3>
+	</hgroup>
+	<article>
+		<ul class="build" style="font-size:20px;line-height:1.4em">
+			<li>Includes set of classes that together make the <a href="https://developers.google.com/apps-script/defaultservices">Google AppsScript API</a>.</li>
+			<li>Provides ways to automate tasks across Google products, like sending emails through Gmail, or setting up meetings on calendar, etc.</li>
+			<li>Links Google products with third-party services, thereby making it possible to send emails through third-party email providers.</li>
+			<li>Lets user add custom macros to documents and custom functions to spreadsheets.</li>
+			<li>Makes it possible to build rich graphical user interfaces and menus.<br/></li>
+			<li>
+				<div class="exercise" style="font-size:18px; line-height:1.4em;">Exercise 8: Use Google AppsScript to:
+				<ul>
+					<li>Create a new document titled "hello world" with some content in it.</li>
+					<li>Insert a new function <code>c2f</code> in a spreadsheet that converts temperature from the Celsius scale to the Fahrenheit scale</li>
+					<li>Send a mail to yourself using&nbsp;&nbsp;<a href="https://developers.google.com/apps-script/class_gmailapp">GmailApp</a>.</li>
+				</ul>	
+			</div></li>	
+		</ul>
+	</article>
+</slide>
+<!-- wrap it all -->
+<slide>
+	<hgroup>
+		<h2>To wrap it all...</h2>
+		<h3></h3>
+	</hgroup>
+		<article>
+			<ul class="build" style="font-size:22px;line-height:1.6em;">
+				<li>Google APIs are RESTful and are built over the HTTP protocol.</li>
+				<li><a href="http://developers.google.com/">developers.google.com</a> is the central location for learning and trying out the APIs.</li>
+				<li><a href="https://developers.google.com/apis-explorer/">apis explorer</a> can be used to list all APIs available along with their documentation, and can also be used to send authenticated requests and fetch data on behalf of a user.</li>
+				<li><a href="https://developers.google.com/accounts/docs/OAuth2">OAuth2</a> is the most common authorization protocol used by Google APIs.</li>
+				<li><a href="https://code.google.com/oauthplayground/">OAuth2 playground</a> can be used to learn the steps required to make an authenticated API call using access tokens.</li>
+				<li><a href="https://code.google.com/oauthplayground/">APIs Console</a> is an administrative console used to register and manage your applications with Google.</li>
+				<li>All the APIs also provide <a href="https://developers.google.com/url-shortener/libraries">client libraries</a> in various languages for server side programming.</li>
+				<li><a href="https://developers.google.com/apps-script/">Google AppsScript</a> provides ways to automate tasks across Google products.</li>
+			</ul>	
+		</article>
+	</slide>
+<!-- Google Apps Challenge -->
+<slide>
+    <hgroup>
+      <h2>Google Apps Developer Challenge 2012</h2>
+      <h3>Build a cool app and win exciting prizes!</h3>
+    </hgroup>
+    <article>
+		<div class="exercise" style="line-height:2em;">
+		<b>Task: Build and submit an amazing application in one of these categories:</b>
+		<ul>
+			<li>Enterprise / Small Business Solutions</li>
+			<li>Social / Personal Productivity / Games / Fun</li>
+			<li>Not-for-Profit: Education / Water / Food & Hunger / Health</li>
+		</ul>
+		A winner will be chosen for each category, <b>separately for India</b>.
+		<br/>
+		Win prizes that include <b>Chromebooks</b> and up to <b>$20,000</b>.
+		<br/>
+	    <b>Deadline: 24 Aug 2012.</b>
+		<br/>
+		More details: <a href="http://www.google.com/events/gadc2012/">http://www.google.com/events/gadc2012/</a>
+	</div>
+  </article>
+ </slide>
+  <slide class="thank-you-slide segue nobackground">
+    <aside class="gdbar right"><img src="images/google_developers_icon_128.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <h2>All the best!</h2>
+	  <h3>&nbsp;</h2>
+	</article>
+    <p class="auto-fadein" data-config-contact>
+      <!-- populated from slide_config.json -->
+    </p>
+  </slide>
+
+  <slide class="logoslide dark nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="images/google_developers_logo_white.png"></span>
+    </article>
+  </slide>
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+</html>
